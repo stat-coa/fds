@@ -144,3 +144,14 @@ GRAPHENE = {
 
 # Cors setting
 CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:80', "http://localhost:80", "https://fds.atri.org"]
+
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_NAME = '__Secure-csrftoken'
+SECURE_HSTS_SECONDS = 31536000   # Strict-Transport-Security
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REFERRER_POLICY = 'same-origin'  # Referrer-Policy
+SECURE_CONTENT_TYPE_NOSNIFF = True  # X-Content-Type-Options
+SECURE_BROWSER_XSS_FILTER = True    # X-XSS-Protection
