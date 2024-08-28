@@ -2,12 +2,26 @@ version: "3"
 
 services:
   app:
+    container_name: fds
     build:
       context: .
-    ports:
-      - "8000:8000"
+    restart: always
+    expose:
+      - 80
+      - 443
     volumes:
       - ./app:/app
+      - static-volume:/app/static_files
+    networks:
+      - gateway
     command: >
-             sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+             sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:80"
+
+networks:
+  gateway:
+    external: true
+
+volumes:
+  static-volume:
+    external: true
+

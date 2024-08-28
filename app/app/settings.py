@@ -21,10 +21,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "django-insecure-&_a1d+%6-cz@0*y@)zg#*+3eisnu1vgewx+fsup59#$hd(g=z*"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 ALLOWED_HOSTS = ["*"]
+
+TURSTED_PROXIES = [
+    '172.23.0.1', # Docker gateway IP address
+    '172.18.0.1',
+    '172.18.0.0/16',
+    '172.23.0.0/16'
+]
 
 # Application definition
 
@@ -47,10 +54,19 @@ INSTALLED_APPS = [
     "dashboard",
 ]
 
+# SSL secure
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+# XFF settings
+XFF_TRUSTED_PROXY_DEPTH = 1
+XFF_HEADER_REQUIRED = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "xff.middleware.XForwardedForMiddleware", # Add this line
     "django.middleware.csrf.CsrfViewMiddleware",
     'django.middleware.locale.LocaleMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -127,10 +143,14 @@ LOCALE_PATHS = (
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'dashboard', 'static')
 ]
+
+# white noise settings
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "live-static-files", "statics")
-# # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, "static_files", "static/")
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "static_files", "media/")
+SERVE_MEDIA_FILES = False
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -148,10 +168,3 @@ CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:80', "http://localhost:80", "https://f
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = '__Secure-csrftoken'
-SECURE_HSTS_SECONDS = 31536000   # Strict-Transport-Security
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_REFERRER_POLICY = 'same-origin'  # Referrer-Policy
-SECURE_CONTENT_TYPE_NOSNIFF = True  # X-Content-Type-Options
-SECURE_BROWSER_XSS_FILTER = True    # X-XSS-Protection

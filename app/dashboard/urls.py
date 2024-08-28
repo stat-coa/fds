@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
@@ -7,5 +7,6 @@ urlpatterns = [
     path('glossary/', views.glossary, name='glossary'),
     path('download/', views.download, name='download'),
     path('documentation/', views.documentation, name='documentation'),
-    path('quickfacts/', views.quickfacts, name='quick facts')
+    path('quickfacts/', views.quickfacts, name='quick facts'),
+    # re_path('^.*$', views.catch_all, name='catch_all'),
 ]

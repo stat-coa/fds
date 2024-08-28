@@ -8,6 +8,7 @@ djangorestframework==3.14.0
 django-filter==22.1
 graphene-django==3.0.0
 django-cors-headers==3.13.0
+whitenoise==6.6.0
 
 # uwsgi
 # uwsgi==2.0.21
@@ -25,3 +26,6 @@ Markdown==3.4.1
 
 # image
 pillow==9.4.0
+
+# Django X-Forwarded-For Properly
+django-xff==1.4.0
